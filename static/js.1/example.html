@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+
+    <title>Bubble Chart</title>
+    <link rel="stylesheet" href="static/css/style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/dc.css"/>
+
+    <script type="text/javascript" src="static/js/d3.js"></script>
+    <script type="text/javascript" src="static/js/crossfilter.js"></script>
+    <script type="text/javascript" src="static/js/dc.js"></script>
+    <script type="text/javascript" src="static/js/queue.js"></script>
+</head>
+<body>
+    
+    
+    <a href="https://github.com/richardadalton/dcexamples"><img style="position: absolute; top: 100; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="data/movies.jpeg">
+            </div>
+            <div class="col-md-10">
+                <h1 class="logo"> Let's bubble chart </h1>
+                <h4>Movies</h4>
+                <!--<div class="btn-group btn-group-md" role="group" aria-label="...">-->
+                <!--    <a href="index.html" class="btn btn-default" role="button">Home</a>-->
+                <!--    <a href="average.html" class="btn btn-default" role="button">Average</a>-->
+                <!--    <a href="dynamicdimension.html" class="btn btn-default" role="button">Dynamic Dimension</a>-->
+                <!--    <a href="compositeChart.html" class="btn btn-default" role="button">Composite</a>-->
+                <!--    <a href="stacked.html" class="btn btn-default" role="button">Stacked</a>-->
+                <!--    <a href="rowChart.html" class="btn btn-default" role="button">Row</a>-->
+                <!--    <a href="scatterPlot.html" class="btn btn-default" role="button">Scatter</a>-->
+                <!--    <a href="bubbleChart.html" class="btn btn-default" role="button">Bubble</a>-->
+                <!--    <a href="map.html" class="btn btn-default" role="button">Map</a>-->
+                <!--    <a href="https://dc-js.github.io/dc.js/" class="btn btn-default" role="button">DC.js</a>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <h3>Bubble Chart</h3>
+    <p>A bubble chart allows plotting more dimensions and measures than a bar, line or pie chart.</p>
+    <p>As with the bar and line charts, the x and y axes can be used. The radius and even the colour of the bubbles can also represent measures.</p>
+
+    <div id="budget_per_country_chart"></div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    var numberFormat = d3.format(".2f");
+
+    queue()
+        .defer(d3.csv, "data/output.csv")
+        .await(makeGraphs);
+
+    function makeGraphs(error, moviesData) {
+
+        var ndx = crossfilter(moviesData);
+
+        var parseDate = d3.time.format("%Y%m%d").parse;
+
+        moviesData.forEach(function(d){
+            d.date = parseDate(d.date);
+        });
+
+        var countryDim = ndx.dimension(function(d){
+            return d.country;
+        });
+
+        var statsByCountry = countryDim.group().reduce(
+            function (p, v) {
+                p.amount += +v["amount"];
+                p.price += +v["price"];
+                return p;
+            },
+            function (p, v) {
+                p.amount -= +v["amount"];
+                p.price -= +v["price"];
+                return p;
+            },
+            function () {
+                return {amount: 0, price: 0}
+            }
+        );
+
+
+        var budget_per_country_chart = dc.bubbleChart("#budget_per_country_chart");
+
+        budget_per_country_chart.width(990)
+            .height(400)
+            .margins({top: 10, right: 50, bottom: 30, left: 60})
+            .dimension(countryDim)
+            .group(statsByCountry)
+            .colors(d3.scale.category20())
+            .keyAccessor(function (p) {
+                return p.value.amount;
+            })
+            .valueAccessor(function (p) {
+                return p.value.price;
+            })
+            .radiusValueAccessor(function (p) {
+                return p.value.amount;
+            })
+            .x(d3.scale.linear().domain([0, 70000]))
+            .r(d3.scale.linear().domain([0, 70000]))
+            .minRadiusWithLabel(15)
+            .elasticY(true)
+            .yAxisPadding(100)
+            .elasticX(true)
+            .xAxisPadding(10000)
+            .maxBubbleRelativeSize(0.07)
+            .renderHorizontalGridLines(true)
+            .renderVerticalGridLines(true)
+            .renderLabel(true)
+            .renderTitle(true)
+            .title(function (p) {
+                return p.key
+                    + "\n"
+                    + "Amount : " + numberFormat(p.value.amount) + "\n"
+                    + "Price: " + numberFormat(p.value.price);
+            });
+        budget_per_country_chart.yAxis().tickFormat(function (s) {
+            return s;
+        });
+        budget_per_country_chart.xAxis().tickFormat(function (s) {
+            return s;
+        });
+
+
+        dc.renderAll();
+    };
+</script>
+
+</body>
+</html>

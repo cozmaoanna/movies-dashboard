@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movie dataset</title>    
+    
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css" />
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+
+</head>
+<body>
+    <h1>Data Visualisation</h1>
+
+    <h2>DC LineChart</h2>
+
+    <div>
+        <h3>production countries vs release date</h3>
+        <div id="chart-here"></div>
+    </div>
+
+    <script>
+     queue()
+        .defer(d3.csv, "data/movie_metadata.csv")
+        .await(makeGraphs);
+        
+        
+    function makeGraphs(error, moviesData) {
+        var ndx = crossfilter(moviesData);
+        
+    
+        var parseDate = d3.time.format("%d/%m/%Y").parse;
+        moviesData.forEach(function(d){
+            d.date = parseDate(d.date);
+        });
+        var date_dim = ndx.dimension(dc.pluck('title_year'));
+        var minDate = date_dim.bottom(1)[0].date;
+        var maxDate = date_dim.top(1)[0].date;
+        
+        var productionUSA = productionCountry('United States of America');
+        var productionUK = productionCountry('United Kingdom');
+        var productionFrance = productionCountry('France');
+        var productionChina = productionCountry('China');
+        var productionAustralia = productionCountry('Australia');
+        var productionIreland = productionCountry('Ireland');
+        var productionCanada = productionCountriy('Canada');
+
+        
+        function productionCountry (production_countries) {
+            return date_dim.group().reduceSum(function (d) {
+            if (d.productionCountry === production_countries) {
+                return +d.production;
+            } else {
+                return 0;
+            }
+        });
+        };
+        var compositeChart = dc.compositeChart('#chart-here');
+        compositeChart
+            .width(990)
+            .height(200)
+            .dimension(date_dim)
+            .x(d3.time.scale().domain([minDate, maxDate]))
+            .yAxisLabel("production_countries")
+            .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
+            .renderHorizontalGridLines(true)
+            .compose([
+                dc.lineChart(compositeChart)
+                    .colors('green')
+                    .group(productionUSA, 'United States of America'),
+                
+                dc.lineChart(compositeChart)
+                    .colors('yellow')
+                    .group(productionUK, 'United Kingdom'),
+                
+                
+                dc.lineChart(compositeChart)
+                    .colors('blue')
+                    .group(productionFrance, 'France'),
+                    
+                dc.lineChart(compositeChart)
+                    .colors('purple')
+                    .group(productionChina, 'China'),
+                    
+                dc.lineChart(compositeChart)
+                    .colors('red')
+                    .group(productionAustralia, 'Australia'),
+                    
+                dc.lineChart(compositeChart)
+                    .colors('pink')
+                    .group(productionIreland, 'Ireland'),
+                
+                dc.lineChart(compositeChart)
+                    .colors('orange')
+                    .group(productionCanada, 'Canada')
+            ])
+            .brushOn(false)
+            .render();
+        
+        
+        dc.renderAll();
+    }
+    </script>
+</body>
+</html>
