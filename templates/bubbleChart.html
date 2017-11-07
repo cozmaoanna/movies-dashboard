@@ -16,6 +16,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+    <!--<script src ="//cdnjs.cloudfare.com/ajax/libs/d3/3.5.5/d3.mim.js"></script>-->
 </head>
 <body>
 
@@ -23,7 +24,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <img src="data/movies.jpeg">
+                <img src="static/images/movies.jpeg">
             </div>
             <div class="col-md-10">
                 <h1 class="logo"> Interactive Dimensional Charting </h1>
@@ -64,15 +65,92 @@
     function makeGraphs(error, moviesData) {
 
         var ndx = crossfilter(moviesData);
+    
+    
+    
+    
+    
+    
+    
+        
+        var outerWidth = 300;
+        var outerHeight = 250;
+        // var innerWidth = outerWidth - 30 - 30;
+        // var innerHeight = outerHeight - 30 - 30;
+        
+        var marginLeft = 30;
+        var marginTop = 30;
+        var marginRight = 30;
+        var marginBottom = 30; 
+        
+        var innerWidth = outerWidth - marginLeft - marginRight;
+        var innerHeight = outerHeight - marginTop - marginBottom;
+        
+        var rMin= 0; 
+        var rMax = 20;
+        var xColumn = "budget";
+        var yColumn = "title_year";
+        var rColumn = "country";
+        var budgetPerCountry = 100000;
+        
+        var svg = d3.select("body ").append("svg")
+            .attr("width", outerWidth)
+            .attr("height",  outerHeight);
+            
+        var g = svg.append('g')
+            .attr("transform", "translate(", + marginLeft + " " + marginTop + ")");
+            
+        var xScale = d3.scale.log().range([0, innerWidth]);
+        var yScale = d3.scale.log().range([innerHeight, 0]);
+        var rScale = d3.scale.sqrt().range([rMin, rMax]);
+        
+        function render (data) {
+            xScale.domain( d3.extent(data, function(d) {return d[xColumn]; }));
+            yScale.domain( d3.extent(data, function(d) {return d[yColumn]; }));
+            rScale.domain( 0, d3.max(data, function(d) {return d[rColumn]; }));
+        
+        var circles = g.selectAll("circle").data(data);
+        circles.enter().append("circle");
+        circles
+            .attr("cx", function(d) { return xScale (d[xColumn]); })
+            .attr("cy", function(d) { return yScale (d[yColumn]); })
+            .attr("r", function(d) {return rScale (d[rColumn]); });
+        circles.exit().remove();
+        }
+        
+        function type (d) {
+            d.country = +d.country;
+            d.budget = +d.budget;
+            return d;
+        }
+        
+        
+        d3.csv("data/movie_metadata.csv", type, function (data){
+            render (data);
+            
+            var budget = rScale.domain()[1];
+            var pixels = Math.PI * rMax * rMax;
+            
+            console.log((budget / pixels + "budget per pixel."));
+        });
+        
+        
+        
+        
+        
+        
+        
+
+
 
         moviesData.forEach(function(d){
             d.title_year = +d.title_year;
         });
-
+    
         var countryDim = ndx.dimension(function(d){
             return d.country;
         });
-
+        
         var statsByCountry = countryDim.group().reduce(
             function (p, v) {
                 p.count++;
@@ -90,7 +168,10 @@
         );
 
         var budget_per_country_chart = dc.bubbleChart("#budget_per_country_chart");
-
+        
+        
+        
+        
         budget_per_country_chart.width(990)
             .height(400)
             .margins({top: 100, right: 200, bottom: 30, left: 100})
@@ -101,17 +182,17 @@
                 return p.value.count;
             })
             .valueAccessor(function (p) {
-                return p.value.budget;
+                return p.value.budget / 1000000;
             })
             .radiusValueAccessor(function (p) {
                 return p.value.count;
             })
-            .x(d3.scale.linear().domain([0, 4000]))
+            .x(d3.scale.linear().domain([-1000, 5000]))
             // .x(d3.scale.ordinal())
             .r(d3.scale.linear().domain([0, 4000]).range(0, 100))
             .minRadiusWithLabel(15)
             .elasticY(true)
-            .yAxisPadding(1000)
+            .yAxisPadding(100000)
             .maxBubbleRelativeSize(0.07)
             .renderHorizontalGridLines(true)
             .renderVerticalGridLines(true)

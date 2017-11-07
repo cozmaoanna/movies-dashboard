@@ -3,3 +3,12 @@
 {
     font-size: 1em;
 }
+
+.dc-chart g.row text {
+    fill: #333;
+
+}
+
+.dc-chart .pie-slice {
+    fill: #333;
+}

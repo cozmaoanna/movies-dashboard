@@ -16,19 +16,16 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
-    <script type="text/javascript" src="static/js/topojson.min.js"></script>
-    <script type="text/javascript" src="static/js/graph.js"></script>
-
 </head>
-<body id = "entire_bg">
+<body>
 
-
+<header>
     <div class="container">
         <div class="row">
-            <div class="col-sm-4">
-                <img src="static/images/movies.jpeg"/>
+            <div class="col-md-2">
+                <img src="data/movies.jpeg">
             </div>
-            <div class="col-sm-8">
+            <div class="col-md-10">
                 <h1 class="logo"> Interactive Dimensional Charting </h1>
                 <h4>Movies</h4>
                 <div class="btn-group btn-group-md" role="group" aria-label="...">
@@ -44,54 +41,75 @@
             </div>
         </div>
     </div>
-
+</header>
 
 <div class="container">
-    <h3> movies </h3>
-    <p>Movie  datasets and interactive charts. </p>
+    <h3>Row Chart</h3>
+    <p> What's a row chart.</p>
+    <p>What does it represent.</p>
+
+    <div id="top_countries"></div>
 </div>
 
 
 
-    <h2>Movie Database</h2>
 
 
-        <div class="col-sm-12 center">
-            <h3> World Map </h3>
-            <p> How many movies in each country. </p>
-            <div id="world-map-chart" class="centerblock"> </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4 center">
-                <h3> bar chart </h3>
-                <p> How many movies in each country. </p>
-                <div id="top_countries"> </div>
-             </div>
-             <div class="col-sm-3 center">
-                <h3> pie chart </h3>
-                <p> How many movies in each country. </p>
-                     <div id="country"></div>
-             </div>
-            <div class="col-sm-5 center">
-                <h3> bar chart </h3>
-                <p> How many movies in each country. </p>
-                <div id="budget"></div>
-             </div>
-              
-        <div class="col-sm-12 center">
-            <h3> World Map </h3>
-            <p> How many movies in each country. </p>
-        <div id="budget_per_country_chart"> </div>
-        </div>
+<script>
+    var numberFormat = d3.format(".2f");
+
+queue()
+    .defer(d3.json, "data")
+    // .defer(d3.json, "/data/countries.geo.json")
+    .await(makeGraphs);
+
+    function makeGraphs(error, moviesData) {
+
+        var ndx = crossfilter(moviesData);
+
+
+        var dim = ndx.dimension(dc.pluck('country'));
+
+        var group = dim.group()
+
+
+        var chart = dc.rowChart("#top_countries");
+
+        chart
+            .width(600)
+            .height(330)
+            .dimension(dim)
+            .group(group)
+            .cap(5)
+            .othersGrouper(false)
+            .xAxis().ticks(4);
+            
+
+        // function show_top_countries(ndx){
+        //     var country_dim = ndx.dimension(dc.pluck("country"));
+        //     var country_count = country_dim.group();
+        //     var countryColors = d3.scale.ordinal()
+        //         .range(["red", "blue", "orange", "green", "pink", "purple"])
         
-        
-      
+        // dc.rowChart("#top_countries")
+        //         .width(500)
+        //         .height(300)
+        //         .colors(countryColors)
+        //         .dimension(country_dim)
+        //         .group(country_count)
+        //         .cap(5)
+        //         .othersGrouper(false)
+        //         .xAxis().ticks(4); 
+        // }
 
-  
 
-    
-   
-    <script>
-    </script>
+
+
+
+
+        dc.renderAll();
+    };
+</script>
+
 </body>
 </html>
