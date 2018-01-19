@@ -13,7 +13,7 @@ Interactive Data visualisation Web Application
 This Web App was built as the second project for the Code Institute's classroom bootcamp. It is a Data Visualisation project using Pythons Flask framework.
 
 Live Demo
-Follow this link to view deployed version of the web app https://cozmaoanna.github.io/movies-dashboard/
+Follow this link to view deployed version of the web app https://stream2project.herokuapp.com/
 
 Built with
 Flask
@@ -36,7 +36,7 @@ Python
 A Python file name dashboard.py renders a graphs.html template and builds a web server using pymongo to interact with MongoDB
 
 MongoDB database
-NoSQL database that converts and presents data in JSON format. The dataset resource was downloaded as a csv file from here - it had many rows of aggregate data i.e. one row that was the product of three other rows, so it was cleaned and sorted in RoboMongo before being used.
+NoSQL database that converts and presents data in JSON format. The dataset resource was downloaded as a csv file from here.
 
 Queue.js
 An asynchronour helper library for JavaScript
@@ -49,6 +49,9 @@ A JavaScript based visualisation engine that renders interactive charts and grap
 
 Dc.js
 A Javascript based wrapper library for d3.js - this made plotting the charts easier
+
+Topojson.mim.js
+An extension to GeoJSON that encodes topology. 
 
 Deployment / Hosting
 This Application was deployed and is hosted on Heroku - gunicorn Python package runs the http server for the app, the Procfile gives Heroku the information to run the app and requirements.txt is a file that conains all the Python packages (pip installs) required to run the app. mLab MongoDB was chosen to host the dataset on the server.

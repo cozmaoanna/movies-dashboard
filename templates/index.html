@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="static/css/dc.css"/>
     <link rel="stylesheet" href="static/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+
     <!--<link rel="stylesheet" href="static/css/introjs.mim.css" type="text/css" />-->
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
@@ -62,33 +64,30 @@
 
 
 
-        <div class="col-sm-12 center" data-step="1" data-intro="Total Number of People Killed and Wounded" data-position='right'>
-            <h3> World Map </h3>
-            <p> The colour red on the map represents the countries movies were made. As you click on countries, the charts bellow will change accordingly </p>
-            <div id="world-map-chart" class="centerblock"> </div>
-        </div>
+
         <div class="row">
+            <div class="col-sm-12 center">
+            <h4><i class="fa fa-globe"></i> The areas in red on the map are the film locations. The map is interactive. You can click on the country to filter the data according to location. </h4>
+            <div id="world-map-chart" class="centerblock"> </div>
+            </div>
             <div class="col-sm-4 center">
-                <h3> bar chart </h3>
-                <p> Top 4 directors and how many movies they created. </p>
+                <center><h5><i class="fa fa-video-camera"></i> This row chart represents all movie directors. The first line includes all producers and the next 3 bars represent the top 4 movie directors based on how many movies they've produced. </br> As you scroll over the 4 bars, the total number of movies will appear accordingly. </h5></center>
                 <div id="top_countries"> </div>
              </div>
              <div class="col-sm-3 center">
-                <h3> pie chart </h3>
-                <p> How many movies in top 3 countries around the world. </p>
-                     <div id="country"></div>
+                <center><h5><i class="fa fa-film"></i> This pie chart represents all countries movies have been produced. The top 3 country with the highest number of movies are displayed along with a section called "others" which represents all the other countries. </br> As you scroll over left and right, the total number of movies will appear accordingly. </h5></center>
+                <div id="country"></div>
              </div>
             <div class="col-sm-5 center">
-                <h3> bar chart </h3>
-                <p> Let's talk about budget. it’s common knowledge that to win big you gotta spend big. Here, we break down the most expensive Hollywood films ever made. </p>
+                <center><h5><i class="fa fa-money"></i> This bar chart represents the budget spent per movie from 0-100million+. The amount is split into 7 parts to show the difference in number of movies created according to the budget </br> As you scroll over left and right, the total number of movies will be displayed accordingly. </h5></center>
                 <div id="budget"></div>
              </div>
-              
+        
         <!--<div class="col-sm-12 center">-->
         <!--    <h3> bubble Chart </h3>-->
         <!--    <p> Bubble chart. </p>-->
         <!--<div id="budget_per_country_chart"> </div>-->
-        <!--</div>-->
+        </div>
         
 
    

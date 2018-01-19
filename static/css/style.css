@@ -12,3 +12,14 @@
 .dc-chart .pie-slice {
     fill: #333;
 }
+
+.h5 h5 {
+    font-size: 15px;
+    font-family: Times New Roman;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
