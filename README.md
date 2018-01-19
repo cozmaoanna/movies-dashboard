@@ -54,7 +54,7 @@ Topojson.mim.js
 An extension to GeoJSON that encodes topology. 
 
 Deployment / Hosting
-This Application was deployed and is hosted on Heroku - gunicorn Python package runs the http server for the app, the Procfile gives Heroku the information to run the app and requirements.txt is a file that conains all the Python packages (pip installs) required to run the app. mLab MongoDB was chosen to host the dataset on the server.
+This Application was deployed and is hosted on Heroku - gunicorn Python package runs the http server for the app, the Procfile gives Heroku the information to run the app and requirements.txt is a file that conains all the Python packages (pip installs) required to run the app.
 
 Testing
 This Application was tested across a range of browsers

@@ -1,4 +1,11 @@
 /* Put your css in here */
+body {
+    font-family: Roboto;
+    
+}
+h3 {
+    font-size: 18px;
+}
 .dc-legend
 {
     font-size: 1em;
@@ -14,8 +21,8 @@
 }
 
 .h5 h5 {
-    font-size: 15px;
-    font-family: Times New Roman;
+    font-size: 16px;
+    font-family: Roboto;
 }
 
 .h4, .h5, .h6, h4, h5, h6 {
