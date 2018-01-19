@@ -13,7 +13,7 @@ Interactive Data visualisation Web Application
 This Web App was built as the second project for the Code Institute's classroom bootcamp. It is a Data Visualisation project using Pythons Flask framework.
 
 Live Demo
-Follow this link to view deployed version of the web app 
+Follow this link to view deployed version of the web app https://cozmaoanna.github.io/movies-dashboard/
 
 Built with
 Flask
@@ -52,18 +52,6 @@ A Javascript based wrapper library for d3.js - this made plotting the charts eas
 
 Deployment / Hosting
 This Application was deployed and is hosted on Heroku - gunicorn Python package runs the http server for the app, the Procfile gives Heroku the information to run the app and requirements.txt is a file that conains all the Python packages (pip installs) required to run the app. mLab MongoDB was chosen to host the dataset on the server.
-
-Installation
-Follow the below instructions to get this project up & running on Mac (commands will be slightly different for Windows)
-
-Download MongoDB & Robomongo
-Go to folder you want to put the cloned project in your terminal & type: $ git clone https://github.com/kgmaxwell1990/threatened-species-dashboard.git
-Create & Activate a new Virtual Environment in terminal: Create: $ python3 -m venv ~/virtualenvs/name_of_environment Activate: $ source ~/virtualenvs/name_of_environment/bin/activate
-Install the project dependancies: $ pip install -r requirements.txt
-Get Mongod running $ mongod --config config/mongoConfig.conf
-Open the folder in vscode and use the internal Terminal
-Navigate to the 'threatened_species.py', right click and select 'Run python file in terminal'
-You should see it running below - go to your browser and type '127.0.0.1:5000' into the address bar and the application should appear
 
 Testing
 This Application was tested across a range of browsers
