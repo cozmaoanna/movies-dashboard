@@ -8,7 +8,7 @@
 
 
 <h1> Movies
-Interactive Data visualisation Web Application </h1>
+Interactive Data visualisation </h1>
 
 <h3> This Web App was built as the second project for the Code Institute's classroom bootcamp. It is a Data Visualisation project using Pythons Flask framework. </h3>
 
