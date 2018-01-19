@@ -30,7 +30,7 @@ queue.js,
 A dataset obtained here,
 Components,
 Flask,
-A Python micro-framework that was used to serve the data and render the HTML pages for this Application </strong>
+</br> A Python micro-framework that was used to serve the data and render the HTML pages for this Application </strong>
 
 <h3> Python </h3>
 A Python file name dashboard.py renders a graphs.html template and builds a web server using pymongo to interact with MongoDB
