@@ -17,19 +17,19 @@ Follow this link to view deployed version of the web app https://stream2project.
 
 <h3> Built with </h3>
 <strong> Flask
-Python
-HTML
-CSS
-Bootstrap
-MongoDB database
-JavaScript Libraries:
-d3.js
-dc.js
-crossfilter.js
-queue.js
-A dataset obtained here
-Components
-Flask
+Python,
+HTML,
+CSS,
+Bootstrap,
+MongoDB database,
+</br> JavaScript Libraries:
+d3.js,
+dc.js,
+crossfilter.js,
+queue.js,
+A dataset obtained here,
+Components,
+Flask,
 A Python micro-framework that was used to serve the data and render the HTML pages for this Application </strong>
 
 <h3> Python </h3>
