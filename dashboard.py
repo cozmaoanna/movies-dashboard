@@ -11,7 +11,7 @@ DBS_NAME = os.environ.get('MONGO_DB_NAME','oanacozma-sandbox')
 COLLECTION_NAME = os.environ.get('MONGO_COLLECTION_NAME','movies')
 
 # Modify the following for your fields
-FIELDS = {'country': True, 'budget': True, 'duration': True, '_id': False}
+FIELDS = {'country': True, 'budget': True, "genres": True, "imdb_score": True, 'title_year': True, 'director_name': True, 'duration': True, '_id': False}
 
 @app.route("/")
 def index():

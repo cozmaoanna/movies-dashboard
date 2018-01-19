@@ -36,76 +36,76 @@ function makeGraphs(error, moviesData, geoData) {
         
         
   
-//                             //-------------bubble chart ----------
+                            //-------------bubble chart ----------
 
- moviesData.forEach(function(d){
-            d.title_year = +d.title_year;
-        });
+//  moviesData.forEach(function(d){
+//             d.title_year = +d.title_year;
+//         });
     
-        var countryDim = ndx.dimension(function(d){
-            return d.country;
-        });
+//         var countryDim = ndx.dimension(function(d){
+//             return d.country;
+//         });
         
-        var statsByCountry = countryDim.group().reduce(
-            function (p, v) {
-                p.count++;
-                p.budget += +v["budget"];
-                return p;
-            },
-            function (p, v) {
-                p.count--;
-                p.budget -= +v["budget"];
-                return p;
-            },
-            function () {
-                return {count: 0, budget: 0}
-            }
-        );
+//         var statsByCountry = countryDim.group().reduce(
+//             function (p, v) {
+//                 p.count++;
+//                 p.budget += +v["budget"];
+//                 return p;
+//             },
+//             function (p, v) {
+//                 p.count--;
+//                 p.budget -= +v["budget"];
+//                 return p;
+//             },
+//             function () {
+//                 return {count: 0, budget: 0}
+//             }
+//         );
 
-        var budget_per_country_chart = dc.bubbleChart("#budget_per_country_chart");
+//         var budget_per_country_chart = dc.bubbleChart("#budget_per_country_chart");
         
         
         
         
-        budget_per_country_chart.width(990)
-            .height(400)
-            .margins({top: 100, right: 200, bottom: 30, left: 100})
-            .dimension(countryDim)
-            .group(statsByCountry)
-            .colors(d3.scale.category20())
-            .keyAccessor(function (p) {
-                return p.value.count;
-            })
-            .valueAccessor(function (p) {
-                return p.value.budget / 1000000;
-            })
-            .radiusValueAccessor(function (p) {
-                return p.value.count;
-            })
-            .x(d3.scale.linear().domain([-1000, 5000]))
-            // .x(d3.scale.ordinal())
-            .r(d3.scale.linear().domain([0, 4000]).range(0, 100))
-            .minRadiusWithLabel(15)
-            .elasticY(true)
-            .yAxisPadding(100000)
-            .maxBubbleRelativeSize(0.07)
-            .renderHorizontalGridLines(true)
-            .renderVerticalGridLines(true)
-            .renderLabel(true)
-            .renderTitle(true);
-            // .title(function (p) {
-            //     return p.key
-            //         + "\n"
-            //         + "Year : " + numberFormat(p.value.title_year) + "\n"
-            //         + "Budget: " + numberFormat(p.value.budget);
-            // }
-            // );
-        budget_per_country_chart.yAxis().tickFormat(function (s) {
-            return s;
-        });
-        budget_per_country_chart.xAxis().tickFormat(function (s) {
-            return s;
-        });
+//         budget_per_country_chart.width(990)
+//             .height(400)
+//             .margins({top: 100, right: 200, bottom: 30, left: 100})
+//             .dimension(countryDim)
+//             .group(statsByCountry)
+//             .colors(d3.scale.category20())
+//             .keyAccessor(function (p) {
+//                 return p.value.count;
+//             })
+//             .valueAccessor(function (p) {
+//                 return p.value.budget / 1000000;
+//             })
+//             .radiusValueAccessor(function (p) {
+//                 return p.value.count;
+//             })
+//             .x(d3.scale.linear().domain([-1000, 5000]))
+//             // .x(d3.scale.ordinal())
+//             .r(d3.scale.linear().domain([0, 4000]).range(0, 100))
+//             .minRadiusWithLabel(15)
+//             .elasticY(true)
+//             .yAxisPadding(100000)
+//             .maxBubbleRelativeSize(0.07)
+//             .renderHorizontalGridLines(true)
+//             .renderVerticalGridLines(true)
+//             .renderLabel(true)
+//             .renderTitle(true);
+//             // .title(function (p) {
+//             //     return p.key
+//             //         + "\n"
+//             //         + "Year : " + numberFormat(p.value.title_year) + "\n"
+//             //         + "Budget: " + numberFormat(p.value.budget);
+//             // }
+//             // );
+//         budget_per_country_chart.yAxis().tickFormat(function (s) {
+//             return s;
+//         });
+//         budget_per_country_chart.xAxis().tickFormat(function (s) {
+//             return s;
+//         });
 
 
 
@@ -184,7 +184,7 @@ function makeGraphs(error, moviesData, geoData) {
         
     // -------------- row chart --------------
     
-    var dim = ndx.dimension(dc.pluck('country'));
+    var dim = ndx.dimension(dc.pluck('director_name'));
 
     var group = dim.group()
 
@@ -214,7 +214,7 @@ function makeGraphs(error, moviesData, geoData) {
     var projection = d3.geo.mercator()
         .center([0, 5 ])
         .scale(100)
-        .rotate([-50,0]);
+        .rotate([-10,0]);
 
     worldMap
         .width(1000)
